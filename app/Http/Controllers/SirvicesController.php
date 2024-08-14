@@ -29,4 +29,26 @@ class SirvicesController extends Controller
         $ser = sirvices::all();
         return view('home', compact('ser'));
     }
+
+    public function homecontrrol($id) {
+
+        $ser = sirvices::findorFail($id);
+        return view('homecontrrol', compact('ser'));
+    }
+
+    public function update(Request $request,$id) {
+
+        $image = 'img_'.uniqid().'.'.$request->img->extension();
+        $request->img->move(public_path('img'),$image );
+
+        $ser = sirvices::findorFail($id);
+
+            $ser->title = $request->tit;
+            $ser->img = "img/$image";
+            $ser->description = $request->des;
+
+            $ser->save();
+    }
+
+
 }
